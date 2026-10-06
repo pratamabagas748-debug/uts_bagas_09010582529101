@@ -3,7 +3,7 @@
 @section('title', 'Daftar Buku')
 
 @section('content')
-    {{-- Stats Bar --}}
+    {{-- Stats --}}
     <div class="stats-bar">
         <div class="stat-card">
             <div class="stat-icon purple">
@@ -36,18 +36,18 @@
 
     <div class="card">
         <div class="card-header">
-            <h2><i class="fas fa-book" style="color:var(--primary-light);"></i> Daftar Buku</h2>
+            <h2><i class="fas fa-list" style="color:#1a56db;"></i> Daftar Buku</h2>
             <a href="{{ route('books.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Tambah Buku
             </a>
         </div>
 
-        {{-- Search & Filter Bar (BONUS) --}}
-        <div style="padding:1.25rem 2rem;border-bottom:1px solid var(--border);">
+        {{-- Search & Filter --}}
+        <div style="padding:14px 20px;border-bottom:1px solid #e5e7eb;">
             <form method="GET" action="{{ route('books.index') }}" class="filter-bar">
-                <div style="position:relative;flex:1;max-width:350px;">
-                    <i class="fas fa-search" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray);"></i>
-                    <input type="text" name="search" class="form-control" placeholder="Cari judul atau penulis..." value="{{ request('search') }}" style="padding-left:40px;max-width:100%;">
+                <div style="position:relative;flex:1;max-width:300px;">
+                    <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af;"></i>
+                    <input type="text" name="search" class="form-control" placeholder="Cari judul atau penulis..." value="{{ request('search') }}" style="padding-left:36px;max-width:100%;">
                 </div>
                 <select name="category_id" class="form-control">
                     <option value="">Semua Kategori</option>
@@ -58,7 +58,7 @@
                     @endforeach
                 </select>
                 <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="fas fa-filter"></i> Filter
+                    <i class="fas fa-search"></i> Cari
                 </button>
                 @if(request('search') || request('category_id'))
                     <a href="{{ route('books.index') }}" class="btn btn-outline btn-sm">
@@ -87,8 +87,8 @@
                     <tbody>
                         @foreach($books as $index => $book)
                             <tr>
-                                <td style="color:var(--gray);">{{ $books->firstItem() + $index }}</td>
-                                <td style="font-weight:600;color:var(--white);">{{ $book->title }}</td>
+                                <td style="color:#9ca3af;">{{ $books->firstItem() + $index }}</td>
+                                <td style="font-weight:600;">{{ $book->title }}</td>
                                 <td>{{ $book->author }}</td>
                                 <td>{{ $book->publisher }}</td>
                                 <td>{{ $book->year }}</td>
@@ -133,7 +133,7 @@
                         @if(request('search') || request('category_id'))
                             Tidak ditemukan buku yang sesuai dengan filter.
                         @else
-                            Mulai tambahkan buku ke perpustakaan Anda.
+                            Mulai tambahkan buku ke perpustakaan.
                         @endif
                     </p>
                     @if(request('search') || request('category_id'))
@@ -142,14 +142,13 @@
                         </a>
                     @else
                         <a href="{{ route('books.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Tambah Buku Pertama
+                            <i class="fas fa-plus"></i> Tambah Buku
                         </a>
                     @endif
                 </div>
             @endif
         </div>
 
-        {{-- Pagination --}}
         @if($books->hasPages())
             <div class="pagination-wrapper">
                 {{ $books->appends(request()->query())->links() }}
@@ -157,12 +156,12 @@
         @endif
     </div>
 
-    {{-- Delete Confirmation Modal --}}
+    {{-- Delete Modal --}}
     <div class="modal-overlay" id="deleteModal">
         <div class="modal-box">
             <i class="fas fa-exclamation-triangle"></i>
             <h3>Hapus Buku</h3>
-            <p>Apakah Anda yakin ingin menghapus buku "<span id="deleteBookTitle"></span>"?</p>
+            <p>Yakin ingin menghapus buku "<span id="deleteBookTitle"></span>"?</p>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
                 <button class="btn btn-danger" id="confirmDeleteBtn">
@@ -194,7 +193,6 @@
         }
     });
 
-    // Close modal on overlay click
     document.getElementById('deleteModal').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
     });

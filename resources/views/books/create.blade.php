@@ -3,8 +3,8 @@
 @section('title', 'Tambah Buku')
 
 @section('content')
-    <div style="max-width:700px;margin:0 auto;">
-        <div style="margin-bottom:1.5rem;">
+    <div style="max-width:650px;margin:0 auto;">
+        <div style="margin-bottom:16px;">
             <a href="{{ route('books.index') }}" class="btn btn-outline btn-sm">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
@@ -12,7 +12,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h2><i class="fas fa-plus-circle" style="color:var(--success);"></i> Tambah Buku Baru</h2>
+                <h2><i class="fas fa-plus-circle" style="color:#0e9f6e;"></i> Tambah Buku Baru</h2>
             </div>
             <div class="card-body">
                 @if($errors->any())
@@ -68,12 +68,12 @@
                         </select>
                     </div>
 
-                    <div style="display:flex;gap:0.75rem;margin-top:2rem;">
+                    <div style="display:flex;gap:10px;margin-top:20px;">
                         <button type="submit" class="btn btn-success">
                             <i class="fas fa-save"></i> Simpan
                         </button>
                         <a href="{{ route('books.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-times"></i> Batal
+                            Batal
                         </a>
                     </div>
                 </form>

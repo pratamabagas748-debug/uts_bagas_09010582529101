@@ -3,8 +3,8 @@
 @section('title', 'Detail Buku')
 
 @section('content')
-    <div style="max-width:700px;margin:0 auto;">
-        <div style="margin-bottom:1.5rem;">
+    <div style="max-width:650px;margin:0 auto;">
+        <div style="margin-bottom:16px;">
             <a href="{{ route('books.index') }}" class="btn btn-outline btn-sm">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
@@ -12,8 +12,8 @@
 
         <div class="card">
             <div class="card-header">
-                <h2><i class="fas fa-book" style="color:var(--secondary);"></i> Detail Buku</h2>
-                <div style="display:flex;gap:0.5rem;">
+                <h2><i class="fas fa-book" style="color:#1a56db;"></i> Detail Buku</h2>
+                <div style="display:flex;gap:6px;">
                     <a href="{{ route('books.edit', $book) }}" class="btn btn-warning btn-sm">
                         <i class="fas fa-edit"></i> Edit
                     </a>
@@ -30,7 +30,7 @@
                 <div class="detail-grid">
                     <div class="detail-item full-width">
                         <div class="label">Judul Buku</div>
-                        <div class="value" style="font-size:1.3rem;">{{ $book->title }}</div>
+                        <div class="value" style="font-size:1.2rem;">{{ $book->title }}</div>
                     </div>
                     <div class="detail-item">
                         <div class="label">Penulis</div>
