@@ -13,10 +13,10 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Fiksi'],
-            ['name' => 'Non-Fiksi'],
-            ['name' => 'Teknologi'],
-            ['name' => 'Sains'],
+            ['name' => 'Fiksi', 'description' => 'Buku-buku cerita fiksi, novel, dan karya sastra imajinatif'],
+            ['name' => 'Non-Fiksi', 'description' => 'Buku-buku berbasis fakta, biografi, dan sejarah'],
+            ['name' => 'Teknologi', 'description' => 'Buku-buku tentang teknologi informasi, pemrograman, dan komputer'],
+            ['name' => 'Sains', 'description' => 'Buku-buku ilmu pengetahuan alam, fisika, kimia, dan biologi'],
         ];
 
         foreach ($categories as $category) {

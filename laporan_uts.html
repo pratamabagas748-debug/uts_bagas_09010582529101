@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan UTS - Sistem Manajemen Perpustakaan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #0f172a;
+            --dark-2: #1e293b;
+            --gray: #64748b;
+            --gray-light: #94a3b8;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            line-height: 1.7;
+            font-size: 11pt;
+            background: white;
+        }
+
+        @page {
+            size: A4;
+            margin: 2.5cm 2cm 2cm 3cm;
+        }
+
+        @media print {
+            body { font-size: 10pt; }
+            .page-break { page-break-before: always; }
+            .no-break { page-break-inside: avoid; }
+            pre { page-break-inside: avoid; }
+            h2, h3 { page-break-after: avoid; }
+            .cover-page { page-break-after: always; }
+            .toc-page { page-break-after: always; }
+        }
+
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .cover-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.3);
+        }
+
+        .cover-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .cover-subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .cover-project {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border: 3px solid var(--primary);
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .cover-info {
+            text-align: left;
+            background: var(--light);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            min-width: 350px;
+        }
+
+        .cover-info table { width: 100%; border-collapse: collapse; }
+        .cover-info td { padding: 6px 0; font-size: 0.95rem; }
+        .cover-info td:first-child { font-weight: 600; color: var(--gray); width: 140px; }
+        .cover-info td:last-child { color: var(--dark); font-weight: 500; }
+
+        .cover-year {
+            margin-top: 3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .toc-page { padding: 2rem 0; }
+
+        .toc-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .toc-list { list-style: none; }
+        .toc-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 10px 0;
+            border-bottom: 1px dotted var(--border);
+            font-size: 0.95rem;
+        }
+        .toc-list li a { color: var(--dark); text-decoration: none; font-weight: 500; }
+        .toc-list li.toc-sub { padding-left: 2rem; }
+        .toc-list li.toc-sub a { font-weight: 400; color: var(--gray); }
+
+        .section { margin-bottom: 2.5rem; }
+
+        h2.section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2.section-title .num {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        h3.subsection-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark-2);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 0.75rem; text-align: justify; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.9rem;
+        }
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .data-table td {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table tr:nth-child(even) { background: #f8fafc; }
+        .data-table code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--primary-dark);
+        }
+
+        .code-block {
+            margin: 1rem 0 1.5rem;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .code-header {
+            background: var(--dark);
+            color: #94a3b8;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .code-header .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .code-header .dot.red { background: #ef4444; }
+        .code-header .dot.yellow { background: #f59e0b; }
+        .code-header .dot.green { background: #10b981; }
+
+        pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem 1.25rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            line-height: 1.6;
+            tab-size: 4;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0 1.5rem;
+        }
+        .feature-item {
+            background: var(--light);
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+        }
+        .feature-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+        .feature-item p { font-size: 0.82rem; color: var(--gray); margin: 0; }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0 1.5rem;
+        }
+        .tech-item {
+            text-align: center;
+            padding: 1.25rem;
+            background: var(--light);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .tech-item .tech-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .tech-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--dark); }
+        .tech-item p { font-size: 0.8rem; color: var(--gray); margin: 0; }
+
+        .note {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.88rem;
+        }
+        .note strong { color: var(--primary-dark); }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 4px; }
+
+        .erd-container {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem 0 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+        .erd-table {
+            background: white;
+            border-radius: 10px;
+            border: 2px solid var(--primary);
+            min-width: 220px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .erd-table-name {
+            background: var(--primary);
+            color: white;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        .erd-fields { list-style: none; padding: 0; margin: 0; }
+        .erd-fields li {
+            padding: 6px 16px;
+            font-size: 0.82rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 0;
+        }
+        .erd-fields li:last-child { border-bottom: none; }
+        .erd-key { font-size: 0.7rem; font-weight: 600; color: var(--warning); }
+        .erd-fk { font-size: 0.7rem; font-weight: 600; color: var(--success); }
+        .erd-arrow { display: flex; align-items: center; color: var(--gray); font-size: 1.5rem; font-weight: 300; }
+
+        .page-footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--gray);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+    <div class="cover-logo">&#x1F4DA;</div>
+    <div class="cover-title">LAPORAN UJIAN TENGAH SEMESTER</div>
+    <div class="cover-subtitle">Pemrograman Web / Framework</div>
+    <div class="cover-project">Sistem Manajemen Perpustakaan</div>
+    <div class="cover-info">
+        <table>
+            <tr><td>Nama</td><td>: Bagas Syahputra</td></tr>
+            <tr><td>NIM</td><td>: 09010582529101</td></tr>
+            <tr><td>Mata Kuliah</td><td>: Pemrograman Web</td></tr>
+            <tr><td>Framework</td><td>: Laravel 11</td></tr>
+            <tr><td>Tahun Ajaran</td><td>: 2025/2026</td></tr>
+        </table>
+    </div>
+    <div class="cover-year">Oktober 2026</div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-page page-break">
+    <h2 class="toc-title">DAFTAR ISI</h2>
+    <ul class="toc-list">
+        <li><a href="#bab1">BAB 1 &mdash; Pendahuluan</a></li>
+        <li class="toc-sub"><a href="#latar-belakang">1.1 Latar Belakang</a></li>
+        <li class="toc-sub"><a href="#tujuan">1.2 Tujuan</a></li>
+        <li class="toc-sub"><a href="#fitur">1.3 Fitur Aplikasi</a></li>
+        <li><a href="#bab2">BAB 2 &mdash; Teknologi yang Digunakan</a></li>
+        <li><a href="#bab3">BAB 3 &mdash; Struktur Database</a></li>
+        <li class="toc-sub"><a href="#tabel-categories">3.1 Tabel Categories</a></li>
+        <li class="toc-sub"><a href="#tabel-books">3.2 Tabel Books</a></li>
+        <li class="toc-sub"><a href="#erd">3.3 Entity Relationship Diagram</a></li>
+        <li><a href="#bab4">BAB 4 &mdash; Source Code</a></li>
+        <li class="toc-sub"><a href="#migration">4.1 Migrations</a></li>
+        <li class="toc-sub"><a href="#model">4.2 Models</a></li>
+        <li class="toc-sub"><a href="#controller">4.3 Controllers</a></li>
+        <li class="toc-sub"><a href="#seeder">4.4 Seeders</a></li>
+        <li class="toc-sub"><a href="#routes">4.5 Routes</a></li>
+        <li class="toc-sub"><a href="#views">4.6 Views (Blade Templates)</a></li>
+        <li><a href="#bab5">BAB 5 &mdash; Cara Menjalankan Aplikasi</a></li>
+        <li><a href="#bab6">BAB 6 &mdash; Kesimpulan</a></li>
+    </ul>
+</div>
+
+<!-- BAB 1: PENDAHULUAN -->
+<div class="page-break" id="bab1">
+    <div class="section">
+        <h2 class="section-title"><span class="num">1</span> Pendahuluan</h2>
+
+        <h3 class="subsection-title" id="latar-belakang">1.1 Latar Belakang</h3>
+        <p>
+            Perpustakaan merupakan salah satu sumber informasi penting dalam dunia pendidikan. Pengelolaan data buku secara manual seringkali menimbulkan kendala seperti pencatatan yang tidak rapi, kesulitan dalam pencarian data, serta kurangnya efisiensi waktu. Oleh karena itu, diperlukan sebuah sistem informasi berbasis web yang dapat membantu mengelola data buku secara digital.
+        </p>
+        <p>
+            Pada Ujian Tengah Semester (UTS) ini, dikembangkan sebuah <strong>Sistem Manajemen Perpustakaan</strong> menggunakan framework <strong>Laravel 11</strong>. Aplikasi ini menerapkan pola arsitektur <strong>MVC (Model-View-Controller)</strong> yang memisahkan logika bisnis, tampilan, dan kontrol alur data.
+        </p>
+
+        <h3 class="subsection-title" id="tujuan">1.2 Tujuan</h3>
+        <ul>
+            <li>Membangun aplikasi CRUD (Create, Read, Update, Delete) untuk pengelolaan data buku</li>
+            <li>Menerapkan arsitektur MVC menggunakan framework Laravel 11</li>
+            <li>Mengimplementasikan relasi <strong>One-to-Many</strong> antara kategori dan buku</li>
+            <li>Menerapkan autentikasi (login/logout) untuk keamanan akses</li>
+            <li>Mengimplementasikan fitur pencarian dan filter sebagai fitur bonus</li>
+        </ul>
+
+        <h3 class="subsection-title" id="fitur">1.3 Fitur Aplikasi</h3>
+        <div class="feature-list">
+            <div class="feature-item">
+                <h4>&#x1F510; Autentikasi</h4>
+                <p>Login dan logout untuk keamanan akses sistem</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x1F4D6; CRUD Buku</h4>
+                <p>Tambah, lihat, edit, dan hapus data buku</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x1F4C2; Kategori Buku</h4>
+                <p>Relasi One-to-Many antara kategori dan buku</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x1F50D; Pencarian dan Filter</h4>
+                <p>Cari buku berdasarkan judul/penulis dan filter kategori</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x1F4CA; Statistik Dashboard</h4>
+                <p>Menampilkan total buku, kategori, dan stok</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x2705; Validasi Data</h4>
+                <p>Validasi server-side untuk semua input form</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x1F4C4; Pagination</h4>
+                <p>Pembagian halaman untuk daftar buku</p>
+            </div>
+            <div class="feature-item">
+                <h4>&#x1F3A8; UI Modern</h4>
+                <p>Desain glassmorphism dengan dark theme premium</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BAB 2: TEKNOLOGI -->
+<div class="page-break" id="bab2">
+    <div class="section">
+        <h2 class="section-title"><span class="num">2</span> Teknologi yang Digunakan</h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">&#x1F418;</div>
+                <h4>PHP 8.x</h4>
+                <p>Bahasa pemrograman server-side</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">&#x1F534;</div>
+                <h4>Laravel 11</h4>
+                <p>PHP Framework (MVC)</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">&#x1F5C4;</div>
+                <h4>SQLite</h4>
+                <p>Database ringan berbasis file</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">&#x1F3A8;</div>
+                <h4>Blade Template</h4>
+                <p>Template engine bawaan Laravel</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">&#x1F485;</div>
+                <h4>Vanilla CSS</h4>
+                <p>Styling custom tanpa framework CSS</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">&#x1F527;</div>
+                <h4>Composer</h4>
+                <p>Dependency manager PHP</p>
+            </div>
+        </div>
+        <div class="note">
+            <strong>Arsitektur MVC:</strong> Aplikasi ini mengikuti pola MVC &mdash; <strong>Model</strong> (Eloquent ORM untuk interaksi database), <strong>View</strong> (Blade templates untuk tampilan), <strong>Controller</strong> (menangani logika request-response).
+        </div>
+    </div>
+</div>
+
+<!-- BAB 3: STRUKTUR DATABASE -->
+<div class="page-break" id="bab3">
+    <div class="section">
+        <h2 class="section-title"><span class="num">3</span> Struktur Database</h2>
+
+        <h3 class="subsection-title" id="tabel-categories">3.1 Tabel Categories</h3>
+        <table class="data-table">
+            <thead><tr><th>Field</th><th>Tipe Data</th><th>Keterangan</th></tr></thead>
+            <tbody>
+                <tr><td><code>id</code></td><td>BIGINT (Auto Increment)</td><td>Primary Key</td></tr>
+                <tr><td><code>name</code></td><td>VARCHAR(255)</td><td>Nama kategori</td></tr>
+                <tr><td><code>description</code></td><td>TEXT (Nullable)</td><td>Deskripsi kategori</td></tr>
+                <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>Waktu pembuatan</td></tr>
+                <tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td>Waktu perubahan terakhir</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="subsection-title" id="tabel-books">3.2 Tabel Books</h3>
+        <table class="data-table">
+            <thead><tr><th>Field</th><th>Tipe Data</th><th>Keterangan</th></tr></thead>
+            <tbody>
+                <tr><td><code>id</code></td><td>BIGINT (Auto Increment)</td><td>Primary Key</td></tr>
+                <tr><td><code>category_id</code></td><td>BIGINT (Unsigned)</td><td>Foreign Key ke tabel categories</td></tr>
+                <tr><td><code>title</code></td><td>VARCHAR(255)</td><td>Judul buku</td></tr>
+                <tr><td><code>author</code></td><td>VARCHAR(255)</td><td>Penulis</td></tr>
+                <tr><td><code>publisher</code></td><td>VARCHAR(255)</td><td>Penerbit</td></tr>
+                <tr><td><code>year</code></td><td>INTEGER</td><td>Tahun terbit</td></tr>
+                <tr><td><code>stock</code></td><td>INTEGER (Default: 0)</td><td>Jumlah stok</td></tr>
+                <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>Waktu pembuatan</td></tr>
+                <tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td>Waktu perubahan terakhir</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="subsection-title" id="erd">3.3 Entity Relationship Diagram (ERD)</h3>
+        <div class="erd-container">
+            <div class="erd-table">
+                <div class="erd-table-name">categories</div>
+                <ul class="erd-fields">
+                    <li>id <span class="erd-key">PK</span></li>
+                    <li>name</li>
+                    <li>description</li>
+                    <li>created_at</li>
+                    <li>updated_at</li>
+                </ul>
+            </div>
+            <div class="erd-arrow">&mdash;&mdash; 1 : N &mdash;&mdash;&gt;</div>
+            <div class="erd-table">
+                <div class="erd-table-name">books</div>
+                <ul class="erd-fields">
+                    <li>id <span class="erd-key">PK</span></li>
+                    <li>category_id <span class="erd-fk">FK</span></li>
+                    <li>title</li>
+                    <li>author</li>
+                    <li>publisher</li>
+                    <li>year</li>
+                    <li>stock</li>
+                    <li>created_at</li>
+                    <li>updated_at</li>
+                </ul>
+            </div>
+        </div>
+        <div class="note">
+            <strong>Relasi:</strong> Satu kategori (<code>categories</code>) dapat memiliki banyak buku (<code>books</code>) &mdash; relasi <strong>One-to-Many</strong>. Jika kategori dihapus, semua buku dalam kategori tersebut ikut terhapus (<code>onDelete('cascade')</code>).
+        </div>
+    </div>
+</div>
+
+<!-- BAB 4: SOURCE CODE -->
+<div class="page-break" id="bab4">
+    <div class="section">
+        <h2 class="section-title"><span class="num">4</span> Source Code</h2>
+
+        <h3 class="subsection-title" id="migration">4.1 Migrations</h3>
+        <p>Migration digunakan untuk membuat dan mengelola struktur tabel database secara programatik.</p>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                database/migrations/2024_01_01_000001_create_categories_table.php
+            </div>
+<pre>&lt;?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('categories', function (Blueprint $table) {
+            $table-&gt;id();
+            $table-&gt;string('name');
+            $table-&gt;text('description')-&gt;nullable();
+            $table-&gt;timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('categories');
+    }
+};</pre>
+        </div>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                database/migrations/2024_01_01_000002_create_books_table.php
+            </div>
+<pre>&lt;?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('books', function (Blueprint $table) {
+            $table-&gt;id();
+            $table-&gt;foreignId('category_id')-&gt;constrained('categories')-&gt;onDelete('cascade');
+            $table-&gt;string('title');
+            $table-&gt;string('author');
+            $table-&gt;string('publisher');
+            $table-&gt;integer('year');
+            $table-&gt;integer('stock')-&gt;default(0);
+            $table-&gt;timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('books');
+    }
+};</pre>
+        </div>
+
+        <h3 class="subsection-title" id="model">4.2 Models</h3>
+        <p>Model merepresentasikan tabel database dan mendefinisikan relasi antar tabel menggunakan Eloquent ORM.</p>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                app/Models/Category.php
+            </div>
+<pre>&lt;?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Category extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'description'];
+
+    /**
+     * Relasi: Category memiliki banyak Book (One to Many)
+     */
+    public function books(): HasMany
+    {
+        return $this-&gt;hasMany(Book::class);
+    }
+}</pre>
+        </div>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                app/Models/Book.php
+            </div>
+<pre>&lt;?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Book extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'category_id',
+        'title',
+        'author',
+        'publisher',
+        'year',
+        'stock',
+    ];
+
+    /**
+     * Relasi: Book milik satu Category (Many to One)
+     */
+    public function category(): BelongsTo
+    {
+        return $this-&gt;belongsTo(Category::class);
+    }
+}</pre>
+        </div>
+    </div>
+</div>
+
+<!-- 4.3 Controllers -->
+<div class="page-break">
+    <div class="section">
+        <h3 class="subsection-title" id="controller">4.3 Controllers</h3>
+        <p>Controller menangani logika bisnis, menerima request dari user, memproses data, dan mengembalikan response.</p>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                app/Http/Controllers/AuthController.php
+            </div>
+<pre>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AuthController extends Controller
+{
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request-&gt;validate([
+            'email' =&gt; 'required|email',
+            'password' =&gt; 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request-&gt;session()-&gt;regenerate();
+            return redirect()-&gt;intended('/books')-&gt;with('success', 'Berhasil login!');
+        }
+
+        return back()-&gt;withErrors([
+            'email' =&gt; 'Email atau password salah.',
+        ])-&gt;onlyInput('email');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request-&gt;session()-&gt;invalidate();
+        $request-&gt;session()-&gt;regenerateToken();
+        return redirect('/login')-&gt;with('success', 'Berhasil logout!');
+    }
+}</pre>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                app/Http/Controllers/BookController.php
+            </div>
+<pre>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Book;
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+class BookController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Book::with('category');
+
+        // Fitur pencarian berdasarkan judul atau penulis (BONUS)
+        if ($request-&gt;filled('search')) {
+            $search = $request-&gt;search;
+            $query-&gt;where(function ($q) use ($search) {
+                $q-&gt;where('title', 'like', '%' . $search . '%')
+                  -&gt;orWhere('author', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Fitur filter berdasarkan kategori (BONUS)
+        if ($request-&gt;filled('category_id')) {
+            $query-&gt;where('category_id', $request-&gt;category_id);
+        }
+
+        $books = $query-&gt;latest()-&gt;paginate(10);
+        $categories = Category::all();
+        return view('books.index', compact('books', 'categories'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('books.create', compact('categories'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request-&gt;validate([
+            'title' =&gt; 'required|string|max:255',
+            'author' =&gt; 'required|string|max:255',
+            'publisher' =&gt; 'required|string|max:255',
+            'year' =&gt; 'required|integer|min:1900|max:' . date('Y'),
+            'stock' =&gt; 'required|integer|min:0',
+            'category_id' =&gt; 'required|exists:categories,id',
+        ]);
+
+        Book::create($validated);
+        return redirect()-&gt;route('books.index')
+            -&gt;with('success', 'Buku berhasil ditambahkan!');
+    }
+
+    public function show(Book $book)
+    {
+        $book-&gt;load('category');
+        return view('books.show', compact('book'));
+    }
+
+    public function edit(Book $book)
+    {
+        $categories = Category::all();
+        return view('books.edit', compact('book', 'categories'));
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $validated = $request-&gt;validate([
+            'title' =&gt; 'required|string|max:255',
+            'author' =&gt; 'required|string|max:255',
+            'publisher' =&gt; 'required|string|max:255',
+            'year' =&gt; 'required|integer|min:1900|max:' . date('Y'),
+            'stock' =&gt; 'required|integer|min:0',
+            'category_id' =&gt; 'required|exists:categories,id',
+        ]);
+
+        $book-&gt;update($validated);
+        return redirect()-&gt;route('books.index')
+            -&gt;with('success', 'Buku berhasil diperbarui!');
+    }
+
+    public function destroy(Book $book)
+    {
+        $book-&gt;delete();
+        return redirect()-&gt;route('books.index')
+            -&gt;with('success', 'Buku berhasil dihapus!');
+    }
+}</pre>
+        </div>
+    </div>
+</div>
+
+<!-- 4.4 Seeders -->
+<div class="page-break">
+    <div class="section">
+        <h3 class="subsection-title" id="seeder">4.4 Seeders</h3>
+        <p>Seeder digunakan untuk mengisi database dengan data awal untuk keperluan testing.</p>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                database/seeders/DatabaseSeeder.php
+            </div>
+<pre>&lt;?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    use WithoutModelEvents;
+
+    public function run(): void
+    {
+        $this-&gt;call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            BookSeeder::class,
+        ]);
+    }
+}</pre>
+        </div>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                database/seeders/UserSeeder.php
+            </div>
+<pre>&lt;?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    public function run(): void
+    {
+        User::create([
+            'name' =&gt; 'Administrator',
+            'email' =&gt; 'admin@perpustakaan.com',
+            'password' =&gt; Hash::make('password123'),
+        ]);
+    }
+}</pre>
+        </div>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                database/seeders/CategorySeeder.php
+            </div>
+<pre>&lt;?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Category;
+
+class CategorySeeder extends Seeder
+{
+    public function run(): void
+    {
+        $categories = [
+            ['name' =&gt; 'Fiksi', 'description' =&gt; 'Buku-buku cerita fiksi, novel, dan karya sastra imajinatif'],
+            ['name' =&gt; 'Non-Fiksi', 'description' =&gt; 'Buku-buku berbasis fakta, biografi, dan sejarah'],
+            ['name' =&gt; 'Teknologi', 'description' =&gt; 'Buku-buku tentang teknologi informasi dan komputer'],
+            ['name' =&gt; 'Sains', 'description' =&gt; 'Buku-buku ilmu pengetahuan alam, fisika, kimia, dan biologi'],
+        ];
+
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
+    }
+}</pre>
+        </div>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                database/seeders/BookSeeder.php
+            </div>
+<pre>&lt;?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Book;
+
+class BookSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $books = [
+            [
+                'category_id' =&gt; 1,
+                'title' =&gt; 'Laskar Pelangi',
+                'author' =&gt; 'Andrea Hirata',
+                'publisher' =&gt; 'Bentang Pustaka',
+                'year' =&gt; 2005, 'stock' =&gt; 15,
+            ],
+            [
+                'category_id' =&gt; 1,
+                'title' =&gt; 'Bumi Manusia',
+                'author' =&gt; 'Pramoedya Ananta Toer',
+                'publisher' =&gt; 'Hasta Mitra',
+                'year' =&gt; 1980, 'stock' =&gt; 10,
+            ],
+            [
+                'category_id' =&gt; 2,
+                'title' =&gt; 'Filosofi Teras',
+                'author' =&gt; 'Henry Manampiring',
+                'publisher' =&gt; 'Penerbit Buku Kompas',
+                'year' =&gt; 2018, 'stock' =&gt; 20,
+            ],
+            [
+                'category_id' =&gt; 3,
+                'title' =&gt; 'Clean Code',
+                'author' =&gt; 'Robert C. Martin',
+                'publisher' =&gt; 'Prentice Hall',
+                'year' =&gt; 2008, 'stock' =&gt; 8,
+            ],
+            [
+                'category_id' =&gt; 4,
+                'title' =&gt; 'A Brief History of Time',
+                'author' =&gt; 'Stephen Hawking',
+                'publisher' =&gt; 'Bantam Books',
+                'year' =&gt; 1988, 'stock' =&gt; 12,
+            ],
+            [
+                'category_id' =&gt; 3,
+                'title' =&gt; 'The Pragmatic Programmer',
+                'author' =&gt; 'David Thomas &amp; Andrew Hunt',
+                'publisher' =&gt; 'Addison-Wesley',
+                'year' =&gt; 1999, 'stock' =&gt; 6,
+            ],
+        ];
+
+        foreach ($books as $book) {
+            Book::create($book);
+        }
+    }
+}</pre>
+        </div>
+    </div>
+</div>
+
+<!-- 4.5 Routes -->
+<div class="page-break">
+    <div class="section">
+        <h3 class="subsection-title" id="routes">4.5 Routes</h3>
+        <p>File routes mendefinisikan URL endpoint dan menghubungkannya ke controller yang sesuai.</p>
+
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                routes/web.php
+            </div>
+<pre>&lt;?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
+
+// Redirect root ke halaman buku
+Route::get('/', function () {
+    return redirect('/books');
+});
+
+// Authentication Routes
+Route::get('/login', [AuthController::class, 'showLogin'])-&gt;name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])-&gt;name('logout');
+
+// Book Routes (harus login)
+Route::middleware('auth')-&gt;group(function () {
+    Route::resource('books', BookController::class);
+});</pre>
+        </div>
+
+        <p>Penjelasan routing:</p>
+        <table class="data-table">
+            <thead><tr><th>Method</th><th>URI</th><th>Action</th><th>Keterangan</th></tr></thead>
+            <tbody>
+                <tr><td>GET</td><td><code>/login</code></td><td>showLogin</td><td>Form login</td></tr>
+                <tr><td>POST</td><td><code>/login</code></td><td>login</td><td>Proses login</td></tr>
+                <tr><td>POST</td><td><code>/logout</code></td><td>logout</td><td>Proses logout</td></tr>
+                <tr><td>GET</td><td><code>/books</code></td><td>index</td><td>Daftar buku</td></tr>
+                <tr><td>GET</td><td><code>/books/create</code></td><td>create</td><td>Form tambah buku</td></tr>
+                <tr><td>POST</td><td><code>/books</code></td><td>store</td><td>Simpan buku baru</td></tr>
+                <tr><td>GET</td><td><code>/books/{book}</code></td><td>show</td><td>Detail buku</td></tr>
+                <tr><td>GET</td><td><code>/books/{book}/edit</code></td><td>edit</td><td>Form edit buku</td></tr>
+                <tr><td>PUT</td><td><code>/books/{book}</code></td><td>update</td><td>Update buku</td></tr>
+                <tr><td>DELETE</td><td><code>/books/{book}</code></td><td>destroy</td><td>Hapus buku</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 4.6 Views -->
+<div class="page-break">
+    <div class="section">
+        <h3 class="subsection-title" id="views">4.6 Views (Blade Templates)</h3>
+        <p>Views menggunakan Blade template engine Laravel untuk menampilkan halaman web. Berikut struktur view yang digunakan:</p>
+
+        <table class="data-table">
+            <thead><tr><th>File</th><th>Keterangan</th></tr></thead>
+            <tbody>
+                <tr><td><code>layouts/app.blade.php</code></td><td>Layout utama (navbar, CSS, struktur HTML)</td></tr>
+                <tr><td><code>auth/login.blade.php</code></td><td>Halaman login</td></tr>
+                <tr><td><code>books/index.blade.php</code></td><td>Halaman daftar buku (tabel, search, filter, pagination)</td></tr>
+                <tr><td><code>books/create.blade.php</code></td><td>Form tambah buku baru</td></tr>
+                <tr><td><code>books/edit.blade.php</code></td><td>Form edit data buku</td></tr>
+                <tr><td><code>books/show.blade.php</code></td><td>Halaman detail buku</td></tr>
+            </tbody>
+        </table>
+
+        <h4 style="margin: 1.5rem 0 0.5rem; font-size: 1rem;">Layout Utama &mdash; <code>layouts/app.blade.php</code></h4>
+        <p>Layout utama menggunakan desain <strong>glassmorphism</strong> dengan dark theme. Fitur utama layout:</p>
+        <ul>
+            <li>Navbar sticky dengan efek backdrop-filter blur</li>
+            <li>Animated gradient background</li>
+            <li>Responsive design untuk mobile dan desktop</li>
+            <li>CSS Variables untuk konsistensi warna</li>
+            <li>Font Inter dari Google Fonts</li>
+            <li>Font Awesome untuk ikon</li>
+        </ul>
+
+        <h4 style="margin: 1.5rem 0 0.5rem; font-size: 1rem;">Halaman Login &mdash; <code>auth/login.blade.php</code></h4>
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                resources/views/auth/login.blade.php
+            </div>
+<pre>@extends('layouts.app')
+
+@section('title', 'Login')
+
+@section('content')
+&lt;div style="display:flex;align-items:center;justify-content:center;min-height:80vh;"&gt;
+    &lt;div style="width:100%;max-width:440px;"&gt;
+        &lt;div style="text-align:center;margin-bottom:2rem;"&gt;
+            &lt;h1&gt;Perpustakaan&lt;/h1&gt;
+            &lt;p&gt;Masuk untuk mengelola data buku&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class="card"&gt;
+            &lt;div class="card-body"&gt;
+                &lt;form method="POST" action="{{ route('login') }}"&gt;
+                    @csrf
+                    &lt;div class="form-group"&gt;
+                        &lt;label for="email"&gt;Email&lt;/label&gt;
+                        &lt;input type="email" name="email" class="form-control"
+                            placeholder="Masukkan email" required autofocus&gt;
+                    &lt;/div&gt;
+                    &lt;div class="form-group"&gt;
+                        &lt;label for="password"&gt;Password&lt;/label&gt;
+                        &lt;input type="password" name="password" class="form-control"
+                            placeholder="Masukkan password" required&gt;
+                    &lt;/div&gt;
+                    &lt;button type="submit" class="btn btn-primary" style="width:100%;"&gt;
+                        Masuk
+                    &lt;/button&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+@endsection</pre>
+        </div>
+
+        <h4 style="margin: 1.5rem 0 0.5rem; font-size: 1rem;">Daftar Buku &mdash; <code>books/index.blade.php</code></h4>
+        <p>Halaman utama setelah login menampilkan statistik, tabel buku dengan pencarian, filter kategori, pagination, dan modal konfirmasi hapus.</p>
+
+        <h4 style="margin: 1.5rem 0 0.5rem; font-size: 1rem;">Form Tambah/Edit &mdash; <code>books/create.blade.php</code> dan <code>books/edit.blade.php</code></h4>
+        <p>Form dengan validasi untuk mengisi data buku: judul, penulis, penerbit, tahun terbit, stok, dan kategori. Menggunakan <code>old()</code> helper untuk mempertahankan input saat validasi gagal.</p>
+
+        <h4 style="margin: 1.5rem 0 0.5rem; font-size: 1rem;">Detail Buku &mdash; <code>books/show.blade.php</code></h4>
+        <p>Menampilkan informasi lengkap buku dalam format grid dengan badge untuk kategori dan indikator stok berwarna.</p>
+    </div>
+</div>
+
+<!-- BAB 5: CARA MENJALANKAN -->
+<div class="page-break" id="bab5">
+    <div class="section">
+        <h2 class="section-title"><span class="num">5</span> Cara Menjalankan Aplikasi</h2>
+
+        <h3 class="subsection-title">5.1 Prasyarat</h3>
+        <ul>
+            <li>PHP &gt;= 8.2</li>
+            <li>Composer (dependency manager PHP)</li>
+            <li>XAMPP atau server lokal lainnya</li>
+        </ul>
+
+        <h3 class="subsection-title">5.2 Langkah Instalasi</h3>
+        <div class="code-block no-break">
+            <div class="code-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                Terminal / Command Prompt
+            </div>
+<pre># 1. Clone atau extract project ke folder htdocs
+cd c:\xampp\htdocs\uts_bagas_09010582529101
+
+# 2. Install dependencies
+composer install
+
+# 3. Copy file konfigurasi
+copy .env.example .env
+
+# 4. Generate application key
+php artisan key:generate
+
+# 5. Jalankan migration dan seeder
+php artisan migrate:fresh --seed
+
+# 6. Jalankan development server
+php artisan serve</pre>
+        </div>
+
+        <h3 class="subsection-title">5.3 Akses Aplikasi</h3>
+        <table class="data-table">
+            <thead><tr><th>Keterangan</th><th>Nilai</th></tr></thead>
+            <tbody>
+                <tr><td>URL Aplikasi</td><td><code>http://127.0.0.1:8000</code></td></tr>
+                <tr><td>Email</td><td><code>admin@perpustakaan.com</code></td></tr>
+                <tr><td>Password</td><td><code>password123</code></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- BAB 6: KESIMPULAN -->
+<div class="page-break" id="bab6">
+    <div class="section">
+        <h2 class="section-title"><span class="num">6</span> Kesimpulan</h2>
+
+        <p>
+            Pada UTS ini telah berhasil dikembangkan sebuah <strong>Sistem Manajemen Perpustakaan</strong> berbasis web menggunakan framework <strong>Laravel 11</strong>. Aplikasi ini menerapkan pola arsitektur MVC (Model-View-Controller) dan memenuhi seluruh persyaratan yang diminta:
+        </p>
+
+        <ol>
+            <li><strong>CRUD (Create, Read, Update, Delete)</strong> &mdash; Pengelolaan data buku secara lengkap dengan fitur tambah, lihat, edit, dan hapus.</li>
+            <li><strong>Relasi Database</strong> &mdash; Implementasi relasi One-to-Many antara tabel <code>categories</code> dan <code>books</code> menggunakan Foreign Key.</li>
+            <li><strong>Autentikasi</strong> &mdash; Sistem login dan logout menggunakan Laravel Auth untuk mengamankan akses ke fitur manajemen buku.</li>
+            <li><strong>Validasi Data</strong> &mdash; Validasi server-side pada semua input form untuk memastikan integritas data.</li>
+            <li><strong>Struktur Data</strong> &mdash; Tabel <code>categories</code> (id, name, description, timestamps) dan <code>books</code> (id, category_id, title, author, publisher, year, stock, timestamps) sesuai spesifikasi.</li>
+        </ol>
+
+        <h3 class="subsection-title">Fitur Bonus yang Diimplementasikan</h3>
+        <ul>
+            <li><strong>Pencarian</strong> &mdash; Fitur pencarian buku berdasarkan judul dan penulis</li>
+            <li><strong>Filter Kategori</strong> &mdash; Filter data buku berdasarkan kategori</li>
+            <li><strong>Statistik Dashboard</strong> &mdash; Menampilkan ringkasan total buku, jumlah kategori, dan total stok</li>
+            <li><strong>Pagination</strong> &mdash; Pembagian halaman untuk daftar buku (10 item per halaman)</li>
+            <li><strong>Konfirmasi Hapus</strong> &mdash; Modal dialog konfirmasi sebelum menghapus data</li>
+            <li><strong>UI Premium</strong> &mdash; Desain glassmorphism dengan animasi, dark theme, dan responsive design</li>
+        </ul>
+
+        <div class="note">
+            <strong>Catatan:</strong> Seluruh source code aplikasi ini tersedia di folder project <code>uts_bagas_09010582529101</code> dan telah diuji berjalan dengan baik pada environment XAMPP dengan PHP 8.x dan database SQLite.
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+    <p>Laporan UTS &mdash; Sistem Manajemen Perpustakaan &mdash; Bagas Syahputra (09010582529101)</p>
+    <p>Dibuat dengan Laravel 11 | Oktober 2026</p>
+</div>
+
+</body>
+</html>
