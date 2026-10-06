@@ -3,14 +3,14 @@
 @section('title', 'Login')
 
 @section('content')
-<div style="display:flex;align-items:center;justify-content:center;min-height:75vh;">
-    <div style="width:100%;max-width:400px;">
-        <div style="text-align:center;margin-bottom:24px;">
-            <i class="fas fa-book-open" style="font-size:2.5rem;color:#1a56db;margin-bottom:10px;"></i>
-            <h1 style="font-size:1.5rem;font-weight:700;color:#1f2937;margin-bottom:4px;">Perpustakaan Jaya</h1>
-            <p style="color:#6b7280;font-size:0.9rem;">Silakan login untuk masuk ke sistem</p>
-        </div>
+<div style="display:flex;align-items:center;justify-content:center;min-height:80vh;">
+    <div style="width:100%;max-width:380px;">
         <div class="card">
+            <div style="background:#2c3e6b;padding:20px;text-align:center;color:#fff;">
+                <i class="fas fa-book-open" style="font-size:2rem;margin-bottom:8px;color:#8cb4f0;"></i>
+                <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:2px;">Perpustakaan Jaya</h1>
+                <p style="font-size:0.8rem;color:#c5d3e8;margin:0;">Silakan masuk ke sistem</p>
+            </div>
             <div class="card-body">
                 @if($errors->any())
                     <div class="alert alert-danger">
@@ -23,20 +23,20 @@
                     @csrf
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email" value="{{ old('email') }}" required autofocus>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email anda" value="{{ old('email') }}" required autofocus>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password anda" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;font-size:0.95rem;">
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">
                         <i class="fas fa-sign-in-alt"></i> Masuk
                     </button>
                 </form>
 
-                <div style="text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid #e5e7eb;">
-                    <p style="color:#9ca3af;font-size:0.8rem;">
-                        Demo: <strong style="color:#6b7280;">admin@perpustakaan.com</strong> / <strong style="color:#6b7280;">password123</strong>
+                <div style="text-align:center;margin-top:14px;padding-top:14px;border-top:1px solid #e5e7eb;">
+                    <p style="color:#aaa;font-size:0.78rem;">
+                        Akun: <strong style="color:#666;">bagas@jayapustaka.com</strong> / <strong style="color:#666;">bagas123</strong>
                     </p>
                 </div>
             </div>

@@ -6,48 +6,33 @@
     {{-- Stats --}}
     <div class="stats-bar">
         <div class="stat-card">
-            <div class="stat-icon purple">
-                <i class="fas fa-book"></i>
-            </div>
-            <div class="stat-info">
-                <div class="stat-number">{{ $books->total() }}</div>
-                <div class="stat-label">Total Buku</div>
-            </div>
+            <div class="stat-label"><i class="fas fa-book"></i> Total Buku</div>
+            <div class="stat-number">{{ $books->total() }}</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon blue">
-                <i class="fas fa-tags"></i>
-            </div>
-            <div class="stat-info">
-                <div class="stat-number">{{ $categories->count() }}</div>
-                <div class="stat-label">Kategori</div>
-            </div>
+            <div class="stat-label"><i class="fas fa-tags"></i> Kategori</div>
+            <div class="stat-number">{{ $categories->count() }}</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon green">
-                <i class="fas fa-cubes"></i>
-            </div>
-            <div class="stat-info">
-                <div class="stat-number">{{ $books->sum('stock') }}</div>
-                <div class="stat-label">Total Stok</div>
-            </div>
+            <div class="stat-label"><i class="fas fa-cubes"></i> Total Stok</div>
+            <div class="stat-number">{{ $books->sum('stock') }}</div>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <h2><i class="fas fa-list" style="color:#1a56db;"></i> Daftar Buku</h2>
-            <a href="{{ route('books.create') }}" class="btn btn-primary">
+            <h2><i class="fas fa-list" style="color:#2c3e6b;"></i> Data Buku</h2>
+            <a href="{{ route('books.create') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-plus"></i> Tambah Buku
             </a>
         </div>
 
         {{-- Search & Filter --}}
-        <div style="padding:14px 20px;border-bottom:1px solid #e5e7eb;">
+        <div style="padding:12px 18px;border-bottom:1px solid #dce1e8;background:#fafbfc;">
             <form method="GET" action="{{ route('books.index') }}" class="filter-bar">
-                <div style="position:relative;flex:1;max-width:300px;">
-                    <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af;"></i>
-                    <input type="text" name="search" class="form-control" placeholder="Cari judul atau penulis..." value="{{ request('search') }}" style="padding-left:36px;max-width:100%;">
+                <div style="position:relative;flex:1;max-width:260px;">
+                    <i class="fas fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#aaa;font-size:0.8rem;"></i>
+                    <input type="text" name="search" class="form-control" placeholder="Cari judul / penulis..." value="{{ request('search') }}" style="padding-left:32px;max-width:100%;">
                 </div>
                 <select name="category_id" class="form-control">
                     <option value="">Semua Kategori</option>
@@ -87,14 +72,12 @@
                     <tbody>
                         @foreach($books as $index => $book)
                             <tr>
-                                <td style="color:#9ca3af;">{{ $books->firstItem() + $index }}</td>
+                                <td style="color:#aaa;">{{ $books->firstItem() + $index }}</td>
                                 <td style="font-weight:600;">{{ $book->title }}</td>
                                 <td>{{ $book->author }}</td>
                                 <td>{{ $book->publisher }}</td>
                                 <td>{{ $book->year }}</td>
-                                <td>
-                                    <span class="badge badge-category">{{ $book->category->name }}</span>
-                                </td>
+                                <td><span class="badge badge-category">{{ $book->category->name }}</span></td>
                                 <td>
                                     @if($book->stock == 0)
                                         <span class="badge badge-stock empty">Habis</span>
@@ -128,18 +111,16 @@
             @else
                 <div class="empty-state">
                     <i class="fas fa-book-open"></i>
-                    <h3>Belum ada buku</h3>
+                    <h3>Belum ada data buku</h3>
                     <p>
                         @if(request('search') || request('category_id'))
-                            Tidak ditemukan buku yang sesuai dengan filter.
+                            Tidak ditemukan buku sesuai filter.
                         @else
-                            Mulai tambahkan buku ke perpustakaan.
+                            Tambahkan buku pertama ke perpustakaan.
                         @endif
                     </p>
                     @if(request('search') || request('category_id'))
-                        <a href="{{ route('books.index') }}" class="btn btn-outline">
-                            <i class="fas fa-times"></i> Reset Filter
-                        </a>
+                        <a href="{{ route('books.index') }}" class="btn btn-outline">Reset Filter</a>
                     @else
                         <a href="{{ route('books.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Tambah Buku
@@ -161,7 +142,7 @@
         <div class="modal-box">
             <i class="fas fa-exclamation-triangle"></i>
             <h3>Hapus Buku</h3>
-            <p>Yakin ingin menghapus buku "<span id="deleteBookTitle"></span>"?</p>
+            <p>Yakin ingin menghapus "<span id="deleteBookTitle"></span>"?</p>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
                 <button class="btn btn-danger" id="confirmDeleteBtn">
